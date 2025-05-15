@@ -1,9 +1,12 @@
 <?php
-session_start();
 require_once 'main/includes/config.php';
+require_once 'main/includes/session.php';
 
-// Check if user is logged in
-$isLoggedIn = isset($_SESSION['user_id']) && isset($_SESSION['3fa_status']) && $_SESSION['3fa_status'] == 3;
+// If user is already logged in and completed 3FA, redirect to dashboard
+if (isLoggedIn() && get3FAStatus() == 3) {
+    header("Location: dashboard.php");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,304 +14,395 @@ $isLoggedIn = isset($_SESSION['user_id']) && isset($_SESSION['3fa_status']) && $
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Reality Cloud Storage</title>
+    <link rel="stylesheet" href="main/assets/css/style.css">
     <style>
-        :root {
-            --primary-color: #89CFF0;
-            --dark-bg: #1a1c25;
-            --text-light: #fff;
-            --text-gray: #a0a0a0;
-            --header-bg: rgba(26, 28, 37, 0.95);
+        /* Additional styles specific to landing page */
+        .hero-section {
+            background: var(--primary-color);
+            color: var(--light-text);
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        .hero-section h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
         }
 
-        html, body {
-            height: 100%;
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            line-height: 1.6;
+        .hero-section p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
+        .features-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
         }
 
-        /* Header Styles */
-        header {
-            background: var(--header-bg);
-            padding: 15px 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .logo {
-            font-size: 20px;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-size: 15px;
-            padding: 8px 15px;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .nav-links a:not(.btn):hover {
-            color: var(--primary-color);
-        }
-
-        /* Button Styles */
-        .btn {
-            padding: 8px 20px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: inline-block;
+        .feature-card {
+            background: var(--card-background);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
             text-align: center;
             cursor: pointer;
+            position: relative;
+            transition: box-shadow 0.2s;
+            outline: none;
+            overflow: visible;
         }
 
-        .btn-primary {
-            background: var(--primary-color);
-            color: var(--dark-bg);
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background: #7ab8d6;
-            transform: translateY(-1px);
-        }
-
-        .btn-secondary {
-            background: transparent;
+        .feature-card h3 {
             color: var(--primary-color);
-            border: 1px solid var(--primary-color);
+            margin-bottom: 0;
         }
 
-        .btn-secondary:hover {
-            background: rgba(137, 207, 240, 0.1);
-            transform: translateY(-1px);
+        .feature-tray {
+            display: block;
+            pointer-events: none;
+            opacity: 0;
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            transform: translateX(-50%) translateY(16px);
+            min-width: 320px;
+            width: 90%;
+            max-width: 420px;
+            background: var(--card-background);
+            box-shadow: 0 8px 32px rgba(76, 0, 130, 0.15);
+            border-radius: 12px;
+            padding: 24px 28px;
+            z-index: 10;
+            transition: opacity 0.3s, transform 0.3s;
         }
 
-        /* Hero Section */
-        .hero {
-            padding-top: 80px;
-            min-height: calc(100vh - 70px);
-            display: flex;
-            align-items: center;
-            position: relative;
+        .feature-card:hover,
+        .feature-card:focus {
+            box-shadow: 0 8px 32px rgba(76, 0, 130, 0.15);
         }
 
-        .hero-content {
-            max-width: 550px;
-            position: relative;
-            z-index: 1;
-        }
-
-        h1 {
-            font-size: 48px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            line-height: 1.2;
-            color: var(--text-light);
-        }
-
-        .hero p {
-            font-size: 18px;
-            color: var(--text-gray);
-            margin-bottom: 30px;
-            line-height: 1.6;
+        .feature-card:hover .feature-tray,
+        .feature-card:focus .feature-tray {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(24px);
         }
 
         .cta-buttons {
             display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
         }
 
-        /* Features Section */
-        .features {
-            padding: 80px 0;
-            background: rgba(137, 207, 240, 0.02);
+        .cta-buttons .btn {
+            width: auto;
+            min-width: 150px;
         }
 
-        .section-title {
-            font-size: 32px;
-            margin-bottom: 40px;
-            text-align: center;
-            color: var(--text-light);
-        }
-
-        /* Why Choose Section */
-        .why-choose {
-            padding: 60px 0;
-        }
-
-        .why-choose h2 {
-            font-size: 32px;
-            margin-bottom: 30px;
-            color: var(--text-light);
-        }
-
-        .feature-item {
-            margin-bottom: 25px;
-            padding: 20px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .feature-item:hover {
-            background: rgba(137, 207, 240, 0.05);
-        }
-
-        .feature-item h3 {
-            color: var(--primary-color);
-            font-size: 20px;
-            margin-bottom: 8px;
-        }
-
-        .feature-item p {
-            color: var(--text-gray);
-            font-size: 15px;
-        }
-
-        /* Responsive Design */
         @media (max-width: 768px) {
-            nav {
-                padding: 0 15px;
+            .hero-section {
+                padding: 40px 20px;
             }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            h1 {
-                font-size: 36px;
-            }
-            
-            .hero-content {
-                padding: 0 15px;
-                text-align: center;
+
+            .hero-section h1 {
+                font-size: 2em;
             }
 
             .cta-buttons {
-                justify-content: center;
+                flex-direction: column;
+                align-items: center;
             }
 
-            .feature-item {
-                text-align: center;
+            .cta-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .features-section {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-tray {
+                left: 0;
+                right: 0;
+                min-width: unset;
+                max-width: unset;
+                width: 100vw;
+                transform: translateY(8px);
+                border-radius: 0 0 12px 12px;
+                padding: 18px 8px;
+            }
+
+            .feature-card:hover .feature-tray,
+            .feature-card:focus .feature-tray {
+                transform: translateY(16px);
             }
         }
 
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .container {
-                padding: 0 30px;
-            }
-            
-            .hero-content {
-                max-width: 500px;
+        /* Pricing Section Styles */
+        .pricing-section {
+            padding: 60px 20px;
+            background: rgba(137, 207, 240, 0.02);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .pricing-card {
+            background: var(--card-background);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .pricing-card.popular::before {
+            content: "Most Popular";
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: var(--primary-color);
+            color: var(--dark-bg);
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .pricing-header {
+            margin-bottom: 20px;
+        }
+
+        .pricing-header h3 {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .price-period {
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .pricing-features li {
+            padding: 10px 0;
+            color: var(--text-gray);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li::before {
+            content: "✓";
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+
+        .pricing-cta {
+            margin-top: 30px;
+        }
+
+        .pricing-cta .btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="index.php" class="logo">Virtual Reality Cloud Storage</a>
-            <div class="nav-links">
-                <a href="main/dashboard.php">Dashboard</a>
-                <a href="#features">Features</a>
-                <a href="#pricing">Pricing</a>
-                <?php if($isLoggedIn): ?>
-                    <a href="main/dashboard.php" class="btn btn-primary">Dashboard</a>
-                    <a href="main/logout.php">Log Out</a>
-                <?php else: ?>
-                    <a href="main/login.php">Log In</a>
-                    <a href="main/signup.php" class="btn btn-primary">Sign Up for Free</a>
-                <?php endif; ?>
-            </div>
-        </nav>
-    </header>
+    <div class="dashboard-container">
+        <header>
+            <h1>Virtual Reality Cloud Storage</h1>
+            <nav>
+                <a href="main/login.php">Login</a>
+                <a href="main/signup.php">Sign Up</a>
+            </nav>
+        </header>
 
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Visualize Your Digital Universe</h1>
-                <p>Experience your files like never before. Explore, organize, and access your data through an intuitive and captivating visual interface.</p>
-                <div class="cta-buttons">
-                    <?php if($isLoggedIn): ?>
-                        <a href="main/dashboard.php" class="btn btn-primary">Go to Dashboard</a>
-                        <a href="main/upload.php" class="btn btn-secondary">Upload Files</a>
-                    <?php else: ?>
-                        <a href="main/signup.php" class="btn btn-primary">Sign Up for Free</a>
-                        <a href="main/login.php" class="btn btn-secondary">Log In</a>
-                    <?php endif; ?>
+        <section class="hero-section">
+            <h1>Welcome to VR Cloud Storage</h1>
+            <p>Experience the future of cloud storage with our cutting-edge virtual reality interface. 
+               Store, manage, and share your files in a secure 3D environment with advanced three-factor authentication.</p>
+            <div class="cta-buttons">
+                <a href="main/signup.php" class="btn">Get Started</a>
+                <a href="main/login.php" class="btn btn-secondary">Sign In</a>
+            </div>
+        </section>
+
+        <section class="features-section" id="features-section">
+            <div class="feature-card" tabindex="0">
+                <h3>Three-Factor Authentication</h3>
+                <div class="feature-tray">
+                    <strong>Implementation:</strong>
+                    <ul>
+                        <li><b>Password:</b> User credentials are securely hashed and stored in the database. Login attempts are logged for security.</li>
+                        <li><b>Phone Verification:</b> After password login, a code is sent to the user's phone (demo: code is 1234). User must enter this code to proceed.</li>
+                        <li><b>Authenticator App:</b> After phone verification, a code from an authenticator app (demo: code is 1234) is required. Only after all three steps is access granted.</li>
+                        <li>All steps are tracked in the session and logged in the <code>login_attempts</code> table.</li>
+                    </ul>
                 </div>
             </div>
-        </div>
-    </section>
+            <div class="feature-card" tabindex="0">
+                <h3>VR File Management</h3>
+                <div class="feature-tray">
+                    <strong>Implementation:</strong>
+                    <ul>
+                        <li>Files are stored in the <code>files</code> table, linked to each user.</li>
+                        <li>File metadata (name, type, size, upload date) is managed in the database.</li>
+                        <li>Files are displayed in a grid and can be managed (download, share, delete) from the dashboard.</li>
+                        <li>Future VR integration can use this structure to render files in a 3D space.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="feature-card" tabindex="0">
+                <h3>Secure File Sharing</h3>
+                <div class="feature-tray">
+                    <strong>Implementation:</strong>
+                    <ul>
+                        <li>Files can be shared by generating secure links or by specifying recipient users.</li>
+                        <li>Access permissions are checked before allowing downloads.</li>
+                        <li>All file access is logged for auditing.</li>
+                        <li>Encryption is applied to files at rest and in transit (future enhancement).</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="feature-card" tabindex="0">
+                <h3>500MB File Upload</h3>
+                <div class="feature-tray">
+                    <strong>Implementation:</strong>
+                    <ul>
+                        <li>File uploads are handled via the dashboard with a 500MB size limit enforced in PHP.</li>
+                        <li>Files are stored in the <code>uploads/</code> directory with unique names to prevent overwriting.</li>
+                        <li>File metadata is saved in the <code>files</code> table for management and retrieval.</li>
+                        <li>Large file uploads are validated and errors are shown if limits are exceeded.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="feature-card" tabindex="0">
+                <h3>Real-time Collaboration</h3>
+                <div class="feature-tray">
+                    <strong>Implementation:</strong>
+                    <ul>
+                        <li>Collaboration features are planned for future updates.</li>
+                        <li>Current system supports file sharing and access control for multiple users.</li>
+                        <li>Real-time notifications and editing will be added using WebSockets or similar technology.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="feature-card" tabindex="0">
+                <h3>Cross-Platform Access</h3>
+                <div class="feature-tray">
+                    <strong>Implementation:</strong>
+                    <ul>
+                        <li>Web-based dashboard is fully responsive and works on desktop, tablet, and mobile.</li>
+                        <li>Future VR and mobile apps can connect to the same backend using secure APIs.</li>
+                        <li>All user actions are protected by 3FA and session management for security.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-    <section class="why-choose">
-        <div class="container">
-            <h2>Why Choose VR Cloud Storage?</h2>
-            
-            <div class="feature-item">
-                <h3>3-Factor Authentication</h3>
-                <p>Military-grade security with our unique 3FA system.</p>
-            </div>
-            
-            <div class="feature-item">
-                <h3>VR File Navigation</h3>
-                <p>Browse your files in an immersive 3D environment.</p>
-            </div>
-            
-            <div class="feature-item">
-                <h3>Unlimited Storage</h3>
-                <p>Store as much as you want with our unlimited plans.</p>
-            </div>
-        </div>
-    </section>
+        <section class="pricing-section" id="pricing">
+            <h2 class="section-title">Choose Your Plan</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Basic</h3>
+                        <div class="price">$5<span class="price-period">/month</span></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>10GB Storage</li>
+                        <li>Basic File Sharing</li>
+                        <li>3FA Security</li>
+                        <li>Email Support</li>
+                        <li>1 User</li>
+                    </ul>
+                    <div class="pricing-cta">
+                        <a href="main/contact-sales.php" class="btn btn-secondary">Contact Sales</a>
+                    </div>
+                </div>
 
-    <section id="features" class="features">
-        <div class="container">
-            <h2 class="section-title">More Than Just Storage</h2>
-            <p style="text-align: center; color: var(--text-gray); margin-bottom: 40px;">
-                We believe managing your digital life should be intuitive and even enjoyable. Our unique visual approach helps you understand and interact with your files in a new way.
-            </p>
-        </div>
-    </section>
+                <div class="pricing-card popular">
+                    <div class="pricing-header">
+                        <h3>Professional</h3>
+                        <div class="price">$15<span class="price-period">/month</span></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>100GB Storage</li>
+                        <li>Advanced File Sharing</li>
+                        <li>3FA Security</li>
+                        <li>Priority Support</li>
+                        <li>5 Users</li>
+                        <li>VR Interface Access</li>
+                    </ul>
+                    <div class="pricing-cta">
+                        <a href="main/contact-sales.php" class="btn">Contact Sales</a>
+                    </div>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Enterprise</h3>
+                        <div class="price">$49<span class="price-period">/month</span></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>1TB Storage</li>
+                        <li>Advanced File Sharing</li>
+                        <li>3FA Security</li>
+                        <li>24/7 Support</li>
+                        <li>Unlimited Users</li>
+                        <li>VR Interface Access</li>
+                        <li>Custom Branding</li>
+                        <li>API Access</li>
+                    </ul>
+                    <div class="pricing-cta">
+                        <a href="main/contact-sales.php" class="btn btn-secondary">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 </body>
 </html> 

@@ -71,5 +71,5 @@ if (mysqli_query($conn, $sql)) {
 }
 
 echo "Database setup complete. Please check for any errors above.<br>";
-echo "<a href='signup.php'>Go to Signup</a> | <a href='login.php'>Go to Login</a>";
+echo "<a href='signup.php'>Go to Signup</a> | <a href='login.php'>Go to Login</a> | <a href='../index.php'>Home</a>";
 ?> 

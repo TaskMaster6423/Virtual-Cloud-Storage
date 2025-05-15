@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <header>
             <h1>Virtual Reality Cloud Storage</h1>
             <nav>
-                <a href="index.php">Home</a>
+                <a href="../index.php">Home</a>
                 <a href="signup.php">Sign Up</a>
             </nav>
         </header>

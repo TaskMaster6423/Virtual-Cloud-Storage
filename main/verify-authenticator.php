@@ -46,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h1>Virtual Reality Cloud Storage</h1>
             <nav>
                 <a href="logout.php">Cancel</a>
+                <a href="../index.php">Home</a>
             </nav>
         </header>
 
