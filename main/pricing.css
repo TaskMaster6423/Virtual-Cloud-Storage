@@ -1,0 +1,326 @@
+/* pricing.css */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background: linear-gradient(to bottom, #0c0032, #000000); /* Deep space gradient */
+    color: #eee;
+}
+
+.pricing-container {
+    overflow-x: hidden;
+}
+
+.pricing-header {
+    background-color: rgba(40, 40, 60, 0.8);
+    padding: 2rem 5%;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+.pricing-header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.pricing-header .logo img {
+    height: 40px;
+}
+
+.pricing-header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.pricing-header nav ul li {
+    margin-left: 2rem;
+}
+
+.pricing-header nav ul li a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.2s ease-in-out;
+}
+
+.pricing-header nav ul li a.active,
+.pricing-header nav ul li a:hover {
+    color: #87ceeb;
+}
+
+.pricing-header .hero {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.pricing-header h1 {
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    color: #87ceeb;
+    opacity: 0;
+    transform: translateY(-20px);
+    /* Define the animation here */
+}
+
+.pricing-header h1.animate {
+    animation: fadeInUp 0.8s ease-out 0.3s forwards;
+}
+
+.pricing-header p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #bbb;
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    /* Define the animation here */
+}
+
+.pricing-header p.animate {
+    animation: fadeInUp 0.8s ease-out 0.5s forwards;
+}
+
+.pricing-header .billing-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    opacity: 0;
+    /* Define the animation here */
+}
+
+.pricing-header .billing-toggle.animate {
+    animation: fadeInUp 0.8s ease-out 0.7s forwards;
+}
+
+.pricing-header .billing-toggle .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.pricing-header .billing-toggle .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.pricing-header .billing-toggle .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.pricing-header .billing-toggle .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+.pricing-header .billing-toggle input:checked + .slider {
+    background-color: #a0f; /* Nebula purple */
+}
+
+.pricing-header .billing-toggle input:focus + .slider {
+    box-shadow: 0 0 1px #a0f;
+}
+
+.pricing-header .billing-toggle input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.pricing-header .billing-toggle .toggle-label {
+    color: #bbb;
+    margin: 0 1rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+}
+
+.pricing-header .billing-toggle .toggle-label.active {
+    color: #eee;
+}
+
+.pricing-main {
+    padding: 3rem 5%;
+}
+
+.pricing-tiers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.pricing-card {
+    background-color: rgba(40, 40, 60, 0.8);
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.pricing-card:nth-child(1) { animation: fadeInUpCard 0.6s ease-out 0.9s forwards; }
+.pricing-card:nth-child(2) { animation: fadeInUpCard 0.6s ease-out 1.1s forwards; }
+.pricing-card:nth-child(3) { animation: fadeInUpCard 0.6s ease-out 1.3s forwards; }
+
+@keyframes fadeInUpCard {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.pricing-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.popular {
+    position: relative;
+}
+
+.popular-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: #a0f;
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    z-index: 1;
+}
+
+.plan-header {
+    margin-bottom: 1.5rem;
+}
+
+.plan-name {
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: #eee;
+    margin-bottom: 0.5rem;
+}
+
+.price {
+    font-size: 2.5rem;
+    color: #87ceeb;
+    font-weight: bold;
+}
+
+.currency {
+    font-size: 1.2rem;
+    vertical-align: top;
+    margin-right: 0.2rem;
+}
+
+.period {
+    font-size: 1rem;
+    color: #bbb;
+}
+
+.features-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
+.features-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    color: #ccc;
+    font-size: 1.1rem;
+}
+
+.features-list li i {
+    margin-right: 0.8rem;
+    color: #a0f;
+}
+
+.features-list li .fa-times-circle {
+    color: #ff6b6b;
+}
+
+.faq-section {
+    padding: 3rem 5%;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.faq-section h2 {
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+    color: #87ceeb;
+    text-align: center;
+}
+
+.faq-item {
+    margin-bottom: 2rem;
+}
+
+.faq-question {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #eee;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+}
+
+.faq-question:hover {
+    color: #87ceeb;
+}
+
+.faq-answer {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #bbb;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    padding: 0 1rem;
+}
+
+.faq-item.open .faq-answer {
+    max-height: 200px; /* Adjust as needed */
+    padding: 1rem;
+}
+
+footer {
+    background-color: #111;
+    padding: 1.5rem 5%;
+    text-align: center;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yourfiles virtual reality cloud storgage</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <a href="/" class="logo">
+                    <img src="" alt=>
+                </a>
+                <div class="breadcrumbs">
+                    <a href="#">My Files</a>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="upload-button"><i class="fas fa-upload"></i> Upload</button>
+                <div class="user-info">
+                    <span class="username">User Name</span>
+                    <a href="settings.html"><i class="fas fa-cog fa-spin"></i></a>
+                </div>
+            </div>
+        </header>
+
+        <aside class="dashboard-sidebar">
+            <ul class="navigation">
+                <li class="active"><a href="#"><i class="fas fa-folder fa-fw"></i> My Files</a></li>
+                <li><a href="#"><i class="fas fa-share-alt fa-fw"></i> Shared</a></li>
+                <li><a href="#"><i class="fas fa-star fa-fw"></i> Starred</a></li>
+                <li><a href="#"><i class="fas fa-trash fa-fw"></i> Trash</a></li>
+            </ul>
+            <div class="storage-info">
+                <div class="storage-bar-container">
+                    <div class="storage-bar" style="width: 60%;"></div>
+                </div>
+                <span class="storage-text">60% Used</span>
+            </div>
+        </aside>
+
+        <main class="dashboard-main">
+            <div class="file-manager-header">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search files and folders...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="view-options">
+                    <button class="grid-view active"><i class="fas fa-th-large fa-fw"></i></button>
+                    <button class="list-view"><i class="fas fa-list fa-fw"></i></button>
+                </div>
+            </div>
+
+            <div id="file-constellation-container" class="grid">
+                <div class="file-node folder" draggable="true" data-name="Project Alpha">
+                    <div class="node-icon"><i class="fas fa-folder"></i></div>
+                    <div class="node-name">Project Alpha</div>
+                    <div class="node-actions">
+                        <button title="Download"><i class="fas fa-download"></i></button>
+                        <button title="Share"><i class="fas fa-share-alt"></i></button>
+                        <button title="Delete"><i class="fas fa-trash"></i></button>
+                        <button title="Rename"><i class="fas fa-pen"></i></button>
+                    </div>
+                </div>
+                <div class="file-node file document" draggable="true" data-name="Report.pdf">
+                    <div class="node-icon"><i class="fas fa-file-alt"></i></div>
+                    <div class="node-name">Report.pdf</div>
+                    <div class="node-actions">
+                        <button title="Download"><i class="fas fa-download"></i></button>
+                        <button title="Share"><i class="fas fa-share-alt"></i></button>
+                        <button title="Delete"><i class="fas fa-trash"></i></button>
+                        <button title="Rename"><i class="fas fa-pen"></i></button>
+                    </div>
+                </div>
+                <div class="file-node file image" draggable="true" data-name="Image01.jpg">
+                    <div class="node-icon"><i class="fas fa-image"></i></div>
+                    <div class="node-name">Image01.jpg</div>
+                    <div class="node-actions">
+                        <button title="Download"><i class="fas fa-download"></i></button>
+                        <button title="Share"><i class="fas fa-share-alt"></i></button>
+                        <button title="Delete"><i class="fas fa-trash"></i></button>
+                        <button title="Rename"><i class="fas fa-pen"></i></button>
+                    </div>
+                </div>
+                <div class="file-node folder" draggable="true" data-name="Archive">
+                    <div class="node-icon"><i class="fas fa-folder"></i></div>
+                    <div class="node-name">Archive</div>
+                    <div class="node-actions">
+                        <button title="Download"><i class="fas fa-download"></i></button>
+                        <button title="Share"><i class="fas fa-share-alt"></i></button>
+                        <button title="Delete"><i class="fas fa-trash"></i></button>
+                        <button title="Rename"><i class="fas fa-pen"></i></button>
+                    </div>
+                </div>
+                <div class="file-node file video" draggable="true" data-name="Meeting.mp4">
+                    <div class="node-icon"><i class="fas fa-video"></i></div>
+                    <div class="node-name">Video.mp4</div>
+                    <div class="node-actions">
+                        <button title="Download"><i class="fas fa-download"></i></button>
+                        <button title="Share"><i class="fas fa-share-alt"></i></button>
+                        <button title="Delete"><i class="fas fa-trash"></i></button>
+                        <button title="Rename"><i class="fas fa-pen"></i></button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="upload-progress-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Uploading Files</h2>
+            <div class="progress-bar-container">
+                <div id="upload-progress-bar" class="progress-bar" style="width: 0%;"></div>
+                <span id="upload-progress-text">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

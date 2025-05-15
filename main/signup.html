@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - YourCloud</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+    <div class="signup-container">
+        <div class="signup-header">
+            <a href="/" class="logo">
+                <img src="https://download.logo.wine/logo/Google_Storage/Google_Storage-Logo.wine.png" alt="YourCloud Logo">
+            </a>
+            <h1>Join Our Digital Universe</h1>
+            <p>Create your free account and start exploring your files in a new dimension.</p>
+        </div>
+
+        <form id="signup-form">
+            <div class="form-step active" id="step-1">
+                <h2>Basic Information</h2>
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                    <span class="icon"><i class="fas fa-user"></i></span>
+                    <span class="validation-message"></span>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                    <span class="icon"><i class="fas fa-envelope"></i></span>
+                    <span class="validation-message"></span>
+                </div>
+                <button type="button" class="next-step">Next <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div class="form-step" id="step-2">
+                <h2>Secure Your Account</h2>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                    <span class="icon"><i class="fas fa-lock"></i></span>
+                    <span class="validation-message"></span>
+                </div>
+                <div class="input-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                    <span class="icon"><i class="fas fa-lock"></i></span>
+                    <span class="validation-message"></span>
+                </div>
+                <div class="navigation-buttons">
+                    <button type="button" class="prev-step"><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button type="submit" class="submit-button">Create Account <i class="fas fa-rocket"></i></button>
+                </div>
+            </div>
+
+            <div class="progress-indicator">
+                <div class="step-circle active" data-step="1">1</div>
+                <div class="connector"></div>
+                <div class="step-circle" data-step="2">2</div>
+            </div>
+
+            <div class="login-link">
+                Already have an account? <a href="login.html">Log in here</a>.
+            </div>
+        </form>
+    </div>
+
+    <div class="animated-background"></div>
+
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    <script src="signup.js"></script>
+</body>
+</html>

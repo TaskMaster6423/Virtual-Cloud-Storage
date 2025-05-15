@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - YourCloud</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pricing.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="pricing-container">
+        <header class="pricing-header">
+            <nav>
+                <a href="/" class="logo">
+                    <img src="images/your-logo.png" alt="YourCloud Logo">
+                </a>
+                <ul>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="login.html">Log In</a></li>
+                    <li><a href="signup.html" class="button primary-button">Sign Up for Free</a></li>
+                </ul>
+            </nav>
+            <div class="hero">
+                <h1>Choose Your Orbit. Power Your Cloud.</h1>
+                <p>Select the plan that best suits your needs and unlock the full potential of YourCloud.</p>
+                <div class="billing-toggle">
+                    <label class="switch">
+                        <input type="checkbox" id="billingCycle">
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="toggle-label monthly">Monthly</span>
+                    <span class="toggle-label yearly active">Yearly</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="pricing-main">
+            <div class="pricing-tiers">
+                <div class="pricing-card" data-plan="nebula">
+                    <div class="plan-header">
+                        <h3 class="plan-name">Nebula</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount" data-monthly="9" data-yearly="99">99</span>
+                            <span class="period">/ year</span>
+                        </div>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check-circle"></i> 100 GB Secure Storage</li>
+                        <li><i class="fas fa-check-circle"></i> Basic File Sharing</li>
+                        <li><i class="fas fa-check-circle"></i> Version History (7 days)</li>
+                        <li><i class="fas fa-times-circle"></i> Advanced Collaboration</li>
+                        <li><i class="fas fa-times-circle"></i> Priority Support</li>
+                    </ul>
+                    <a href="/signup?plan=nebula" class="button primary-button">Get Started</a>
+                </div>
+
+                <div class="pricing-card popular" data-plan="galaxy">
+                    <span class="popular-badge">Popular</span>
+                    <div class="plan-header">
+                        <h3 class="plan-name">Galaxy</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount" data-monthly="19" data-yearly="199">199</span>
+                            <span class="period">/ year</span>
+                        </div>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check-circle"></i> 500 GB Secure Storage</li>
+                        <li><i class="fas fa-check-circle"></i> Advanced File Sharing</li>
+                        <li><i class="fas fa-check-circle"></i> Version History (30 days)</li>
+                        <li><i class="fas fa-check-circle"></i> Collaboration Tools</li>
+                        <li><i class="fas fa-times-circle"></i> Priority Support</li>
+                    </ul>
+                    <a href="/signup?plan=galaxy" class="button primary-button">Choose Galaxy</a>
+                </div>
+
+                <div class="pricing-card" data-plan="cosmic">
+                    <div class="plan-header">
+                        <h3 class="plan-name">Cosmic</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount" data-monthly="39" data-yearly="399">399</span>
+                            <span class="period">/ year</span>
+                        </div>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check-circle"></i> 1 TB Secure Storage</li>
+                        <li><i class="fas fa-check-circle"></i> Advanced File Sharing</li>
+                        <li><i class="fas fa-check-circle"></i> Unlimited Version History</li>
+                        <li><i class="fas fa-check-circle"></i> Full Collaboration Suite</li>
+                        <li><i class="fas fa-check-circle"></i> Priority Support</li>
+                    </ul>
+                    <a href="/signup?plan=cosmic" class="button primary-button">Explore Cosmic</a>
+                </div>
+            </div>
+
+            <section class="faq-section">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-item">
+                    <h4 class="faq-question">What payment methods do you accept?</h4>
+                    <p class="faq-answer">We accept all major credit cards, including Visa, Mastercard, American Express, and Discover.</p>
+                </div>
+                <div class="faq-item">
+                    <h4 class="faq-question">Can I upgrade or downgrade my plan later?</h4>
+                    <p class="faq-answer">Yes, you can easily upgrade or downgrade your plan at any time from your account settings. Changes will be reflected in your next billing cycle.</p>
+                </div>
+                <div class="faq-item">
+                    <h4 class="faq-question">Do you offer a free trial?</h4>
+                    <p class="faq-answer">Yes, we offer a 14-day free trial on all our plans. Sign up today and experience the power of YourCloud risk-free!</p>
+                </div>
+                <div class="faq-item">
+                    <h4 class="faq-question">Is my data secure?</h4>
+                    <p class="faq-answer">Absolutely. We employ industry-leading encryption and security protocols to ensure your data is always safe and protected.</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 YourCloud. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="pricing.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In - YourCloud</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <a href="/" class="logo">
+                <img src="https://download.logo.wine/logo/Google_Storage/Google_Storage-Logo.wine.png" alt="YourCloud Logo">
+            </a>
+            <h1>Welcome Back</h1>
+            <p>Enter the nebula of your digital world.</p>
+        </div>
+
+        <form id="login-form">
+            <button type="button" class="google-login-button">
+                <img src="images/google-logo.png" alt="Google Logo">
+                Log in with Google
+            </button>
+
+            <div class="separator">
+                <span>OR</span>
+            </div>
+
+            <div class="input-group">
+                <label for="username-email">Username or Email</label>
+                <input type="text" id="username-email" name="username-email" required>
+                <span class="icon"><i class="fas fa-user-circle"></i></span>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <span class="icon"><i class="fas fa-lock"></i></span>
+            </div>
+
+            <div class="login-options">
+                <label class="remember-me">
+                    <input type="checkbox" name="remember"> Remember Me
+                </label>
+                <a href="/forgot-password">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="login-button">Log In <i class="fas fa-sign-in-alt"></i></button>
+        </form>
+
+        <div class="signup-link">
+            Don't have an account? <a href="signup.html">Sign up here</a>.
+        </div>
+    </div>
+
+    <div class="animated-background nebula"></div>
+
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    <script src="login.js"></script>
+</body>
+</html>
